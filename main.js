@@ -15,25 +15,31 @@ function addItem(e){
 
   // Get input value
   var newItem = document.getElementById('item').value;
+  var newDesc = document.getElementById('desc').value;
 
   // Create new li element
   var li = document.createElement('li');
   // Add class
   li.className = 'list-group-item';
   // Add text node with input value
-  li.appendChild(document.createTextNode(newItem));
+  li.appendChild(document.createTextNode(newItem + ' '));
+  li.appendChild(document.createTextNode(newDesc));
 
   // Create del button element
   var deleteBtn = document.createElement('button');
+  var editBtn = document.createElement('button');
 
   // Add classes to del button
   deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+  editBtn.className = 'btn btn-sm float-right edit'
 
   // Append text node
   deleteBtn.appendChild(document.createTextNode('X'));
+  editBtn.appendChild(document.createTextNode('EDIT'));
 
   // Append button to li
   li.appendChild(deleteBtn);
+  li.appendChild(editBtn);
 
   // Append li to list
   itemList.appendChild(li);
@@ -64,17 +70,12 @@ function filterItems(e){
       item.style.display = 'none';
     }
   });
-}
-
-const deleteButtons = document.querySelectorAll('.delete');
-
-for (const deleteButton of deleteButtons) {
-  const editButton = document.createElement('button');
-  editButton.textContent = 'Edit';
-  editButton.className = 'btn btn-warning';
-  deleteButton.parentElement.appendChild(editButton);
-
-  editButton.addEventListener('click', function() {
-    // Add your code for what should happen when the edit button is clicked here
+  Array.from(items).forEach(function(item){
+    var itemName = item.childNodes[1].textContent;
+    if(itemName.toLowerCase().indexOf(text) != -1){
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
   });
 }
